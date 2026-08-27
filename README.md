@@ -220,6 +220,7 @@ RSM, RustDesk altyapısını kullanır.
 RustDesk ayrı bir açık kaynak projedir ve kendi lisans koşullarına tabidir.
 
 **Remote Support Manager, RustDesk projesinin resmi ürünü değildir.**
+*** SORUMLULUK KABUL EDİLMEZ ***
 
 ---
 
