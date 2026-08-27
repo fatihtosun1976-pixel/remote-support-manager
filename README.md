@@ -9,60 +9,166 @@ Güncel sürüm adayı: v1.0.0-rc2
 Özellikler
 
 Web tabanlı yönetim paneli
+
 RustDesk hbbs ve hbbr Docker yönetimi
+
 ID / Rendezvous Server yapılandırması
+
 Relay Server yapılandırması
+
 RustDesk public key yönetimi
+
 Portable Windows istemci paketi oluşturma
+
 Firma / ürün adı özelleştirme
+
 Logo ve branding desteği
+
 Public istemci indirme bağlantısı
+
 Aktif relay oturumlarını izleme
+
 Oturum sürelerini görüntüleme
+
 Aktif oturum sonlandırma
+
 Audit / sistem logları
+
 Nginx reverse proxy
+
 SQLite veritabanı
-Systemd servisleri
-Ubuntu 24.04 LTS desteği
+
+systemd servisleri
+
+Ubuntu Server 24.04 LTS desteği
 
 Gereksinimler
 
 Ubuntu Server 24.04 LTS
+
 x86_64 işlemci
+
 Minimum 2 CPU
+
 Minimum 2 GB RAM
+
 Minimum 20 GB disk
+
 İnternet erişimi
+
 Docker
+
 Docker Compose
+
 Python 3.12+
+
 Nginx
+
 SQLite
 
 Hızlı Kurulum
 
+Release paketini açın:
+
 tar -xzf remote-support-manager-v1.0.0-rc2.tar.gz
 cd remote-support-manager-v1.0.0-rc2
+
+Kurulumu başlatın:
+
 sudo bash install.sh
 
-Kurulum sonunda yönetim paneli adresi ve ilk admin parolası görüntülenir.
+Kurulum tamamlandığında terminalde yönetim paneli adresi ve ilk admin parolası görüntülenir.
 
-İlk giriş:
+İlk giriş
 
 http://SERVER-IP/
+
 Kullanıcı adı:
+
 admin
 
-FastAPI backend 127.0.0.1:8000 üzerinde çalışır ve doğrudan internete açılmamalıdır.
+İlk admin parolasını kurulum sonunda kaydedin ve ilk girişten sonra değiştirin.
 
-Portable İstemci
+RustDesk Portları
+
+Port
+
+Protokol
+
+Açıklama
+
+21115
+
+TCP
+
+RustDesk bağlantı servisi
+
+21116
+
+TCP
+
+ID / Rendezvous
+
+21116
+
+UDP
+
+Rendezvous / heartbeat
+
+21117
+
+TCP
+
+Relay
+
+21118
+
+TCP
+
+WebSocket
+
+21119
+
+TCP
+
+Relay WebSocket
+
+80
+
+TCP
+
+RSM Web Panel / HTTP
+
+443
+
+TCP
+
+HTTPS kullanılıyorsa
+
+22
+
+TCP
+
+SSH yönetimi
+
+Önerilen RustDesk firewall seti:
+
+TCP 21115-21119
+UDP 21116
+
+RSM FastAPI backend yalnızca:
+
+127.0.0.1:8000
+
+üzerinde çalışmalı ve doğrudan internete açılmamalıdır.
+
+Portable İstemci Paketi
 
 Üretilen paket örneği:
 
 RemoteSupport.zip
 
-İçerik:
+Paket içeriği:
 
 RemoteSupport.exe
 RustDesk2.toml
@@ -72,19 +178,30 @@ profile/
 
 Servis Kontrolü
 
+RSM Panel:
+
 systemctl status rsm-panel.service
+
+Session parser:
+
 systemctl status rsm-rustdesk-sessions.service
+
+Nginx:
+
 systemctl status nginx
+
+RustDesk:
+
 docker ps
 
-Beklenen RustDesk konteynerleri:
+Beklenen konteynerler:
 
 rsm-hbbs
 rsm-hbbr
 
 Güvenlik
 
-Public repository içerisinde aşağıdaki içerikler bulunmamalıdır:
+Public repository içerisinde aşağıdaki dosyalar bulunmamalıdır:
 
 rsm.db
 secret.key
@@ -95,24 +212,12 @@ generated client packages
 customer configuration files
 logs
 
-RustDesk private key kesinlikle paylaşılmamalıdır.
+RustDesk private key olan id_ed25519 kesinlikle paylaşılmamalıdır.
+
+Yönetim panelinin mümkünse VPN, yönetim VLAN'ı veya güvenilir IP adresleri üzerinden erişilebilir olması önerilir.
 
 Güncelleme
 
 sudo bash update.sh
 
-Kaldırma
-
-sudo bash uninstall.sh
-
-Sürüm
-
-v1.0.0-rc2
-
-Bu sürüm final v1.0.0 öncesi test amaçlı Release Candidate sürümüdür.
-RustDesk
-
-RSM, RustDesk altyapısını kullanır. RustDesk ayrı bir açık kaynak projedir ve kendi lisans koşullarına tabidir.
-Bu proje RustDesk projesinin resmi ürünü değildir. ( Sorunluluk kabul edilemz )
-
-Remote Support Manager — RSM
+Production sistemlerde güncelleme öncesi yedek alınması önerilir.
